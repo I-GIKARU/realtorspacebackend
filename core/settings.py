@@ -109,11 +109,22 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# Static files configuration
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Configure static files for Render deployment
+if os.environ.get('RENDER'):
+    # Use WhiteNoise's compression and caching support in production
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    # Render-specific paths
+    STATIC_ROOT = '/opt/render/project/src/staticfiles'
+    STATICFILES_DIRS = ['/opt/render/project/src/static']
+else:
+    # Local development settings
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+    STATICFILES_DIRS = [str(BASE_DIR / 'static')]
+
 # Explicitly define the static files finders
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
