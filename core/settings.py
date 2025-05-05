@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
 SECRET_KEY = env('DJANGO_SECRET_KEY', 'django-insecure-default-key-for-dev-only')
-DEBUG = env.bool('DEBUG', default=True)  # Set default to True for local development
+DEBUG = env.bool('DEBUG', default=False)  # Set default to True for local development
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 # CSRF trusted origins for secure form submission in production
